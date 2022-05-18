@@ -16,6 +16,6 @@ class MassAndMpsRepositoryImpl(private val massAndMpsStorage: MassAndMpsStorage)
 
     override fun getMassAndMps(): MassAndMps{
         val massAndMpsStor = massAndMpsStorage.get()
-        return MassAndMps(massAndMpsStor.mass,massAndMpsStor.mps)
+        return MassAndMps(mass = massAndMpsStor.mass, mps = massAndMpsStor.mps)
     }
 }

@@ -1,12 +1,14 @@
 package com.example.fafmasscalculator.presentation.screens
 
 import android.os.Bundle
+import android.os.Parcel
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fafmasscalculator.ExpAdapter
+import com.example.fafmasscalculator.ExpParcelable
 import com.example.fafmasscalculator.R
 import com.example.fafmasscalculator.databinding.FragmentExpBinding
 import com.example.fafmasscalculator.domain.models.Exp
@@ -56,13 +58,12 @@ class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
 
     override fun onClick(exp: Exp) {
         Toast.makeText(activity, exp.mass, Toast.LENGTH_SHORT).show()
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(MASS,exp.mass)
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(IMAGE,exp.imageId)
+        findNavController().previousBackStackEntry?.savedStateHandle
+            ?.set(EXP,ExpParcelable(exp.imageId,exp.title,exp.mass,exp.type))
         findNavController().popBackStack()
     }
     companion object{
-        const val MASS = "MASS"
-        const val IMAGE = "IMAGE"
+        const val EXP = "EXP"
     }
 }
 

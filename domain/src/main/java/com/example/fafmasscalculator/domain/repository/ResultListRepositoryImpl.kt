@@ -1,9 +1,8 @@
-package com.example.fafmasscalculator.data.repository
+package com.example.fafmasscalculator.domain.repository
 
 import com.example.fafmasscalculator.domain.models.MassAndMps
 import com.example.fafmasscalculator.domain.models.Result
 import com.example.fafmasscalculator.domain.models.ResultList
-import com.example.fafmasscalculator.domain.repository.ResultListRepository
 import kotlin.math.roundToInt
 
 class ResultListRepositoryImpl : ResultListRepository {

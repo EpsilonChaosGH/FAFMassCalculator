@@ -1,5 +1,6 @@
 package com.example.fafmasscalculator.presentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.fafmasscalculator.domain.models.MassAndMps
@@ -14,18 +15,21 @@ class MenuVM(
     private val saveMassAndMpsUseCase : SaveMassAndMpsUseCase
 ) : ViewModel() {
 
-    var massAndMpsLive = MutableLiveData<MassAndMps>()
-    var resultLive = MutableLiveData<ResultList>()
+    private val massAndMpsLiveMutable = MutableLiveData<MassAndMps>()
+    val massAndMpsLive: LiveData<MassAndMps> = massAndMpsLiveMutable
+
+    private val resultLiveMutable = MutableLiveData<ResultList>()
+    val resultLive: LiveData<ResultList> = resultLiveMutable
 
     fun save(massAndMps : MassAndMps) {
-        saveMassAndMpsUseCase.execute(MassAndMps(massAndMps.mass,massAndMps.mps))
+        saveMassAndMpsUseCase.execute(massAndMps)
     }
 
     fun load(){
-        massAndMpsLive.value =  getMassAndMpsUseCase.execute()
+        massAndMpsLiveMutable.value = getMassAndMpsUseCase.execute()
     }
 
     fun getResultList(massAndMps: MassAndMps){
-        resultLive.value = getResultListUseCase.execute(massAndMps)
+        resultLiveMutable.value = getResultListUseCase.execute(massAndMps)
     }
 }

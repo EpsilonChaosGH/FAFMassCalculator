@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 
 private const val SHARED_PREFERENCES = "SHARED_PREFERENCES"
-private const val PREF_MPS_VALUE = "PREF_MPS_VALUE"
 private const val PREF_MASSNEED_VALUE = "PREF_MASSNEED_VALUE"
+private const val PREF_MPS_VALUE = "PREF_MPS_VALUE"
 
 class SharedPrefMassAndMpsStorage(context: Context): MassAndMpsStorage {
 

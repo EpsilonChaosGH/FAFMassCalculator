@@ -10,7 +10,7 @@ import com.example.fafmasscalculator.domain.models.Result
 
 class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
-    var resultList = ArrayList<Result>()
+    private var resultList = ArrayList<Result>()
 
     class ResultHolder(item : View): RecyclerView.ViewHolder(item){
         private val binding = ResultItemBinding.bind(item)
