@@ -16,8 +16,8 @@ class ResultListRepositoryImpl : ResultListRepository {
         var sec = 0
         var mass = 0
         var sacu = 0
-        var best = 0.0f
-        var minutes = 0.0f
+        var best: Float
+        var minutes: Float
         var bestResult = 0
 
         fun toMinutes(): Float {

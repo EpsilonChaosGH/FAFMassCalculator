@@ -48,7 +48,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
 
 
-        binding.btExpUnits.setOnClickListener{
+        binding.imageViewMenu.setOnClickListener{
             openExp()
         }
 
@@ -72,7 +72,6 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             if (exp != null) {
                 binding.massNeedEdit.setText(exp.mass)
                 binding.imageViewMenu.setImageResource(exp.imageId)
-                binding.imageViewMenu.visibility = View.VISIBLE
                 liveData.value = null
             }
         }

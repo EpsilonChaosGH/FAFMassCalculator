@@ -57,7 +57,7 @@ class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
       }
 
     override fun onClick(exp: Exp) {
-        Toast.makeText(activity, exp.mass, Toast.LENGTH_SHORT).show()
+      //  Toast.makeText(activity, exp.mass, Toast.LENGTH_SHORT).show()
         findNavController().previousBackStackEntry?.savedStateHandle
             ?.set(EXP,ExpParcelable(exp.imageId,exp.title,exp.mass,exp.type))
         findNavController().popBackStack()

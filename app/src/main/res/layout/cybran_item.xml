@@ -13,7 +13,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="#500000"
+        app:cardBackgroundColor="#737881"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +41,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="@string/exp"
+                android:background="#500000"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
