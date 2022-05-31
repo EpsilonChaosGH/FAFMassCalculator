@@ -2,7 +2,7 @@ package com.example.fafmasscalculator.domain.models
 
 data class Result(
     val sacu: Int,
-    val mpsNumber: Int,
-    val sec: Float,
+    val massIncome: Int,
+    val time: Float,
     var best: Boolean
-    )
+)

@@ -1,10 +1,9 @@
 package com.example.fafmasscalculator.di
 
-import com.example.fafmasscalculator.domain.usercase.GetMassAndMpsUseCase
+import com.example.fafmasscalculator.domain.usercase.GetParamsUseCase
 import com.example.fafmasscalculator.domain.usercase.GetResultListUseCase
-import com.example.fafmasscalculator.domain.usercase.SaveMassAndMpsUseCase
+import com.example.fafmasscalculator.domain.usercase.SaveParamsUseCase
 import org.koin.dsl.module
-
 
 
 val domainModule = module {
@@ -13,11 +12,11 @@ val domainModule = module {
         GetResultListUseCase(resultListRepository = get())
     }
 
-    factory<GetMassAndMpsUseCase> {
-        GetMassAndMpsUseCase(massAndMpsRepository = get())
+    factory<GetParamsUseCase> {
+        GetParamsUseCase(paramsRepository = get())
     }
 
-    factory<SaveMassAndMpsUseCase> {
-        SaveMassAndMpsUseCase(massAndMpsRepository = get())
+    factory<SaveParamsUseCase> {
+        SaveParamsUseCase(paramsRepository = get())
     }
 }

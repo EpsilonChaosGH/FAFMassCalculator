@@ -1,55 +1,55 @@
 package com.example.fafmasscalculator.domain.repository
 
-import com.example.fafmasscalculator.domain.models.MassAndMps
+import com.example.fafmasscalculator.domain.models.Params
 import com.example.fafmasscalculator.domain.models.Result
 import com.example.fafmasscalculator.domain.models.ResultList
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class ResultListRepositoryImpl : ResultListRepository {
 
     private val resultList: MutableList<Result> = ArrayList()
 
-    override fun getResultList(massAndMps : MassAndMps): ResultList {
-
-
-        var mps = massAndMps.mps
-        var sec = 0
-        var mass = 0
+    override fun getResultList(params: Params): ResultList {
+        var massCost = params.massCost
+        var massIncome = params.massIncome
+        var massCurrent = 0
+        var sec = 0.0f
+        var secMax = 600.0f
         var sacu = 0
-        var best: Float
-        var minutes: Float
+        var sacuCost = 6450  //5320
+        var sacuIncome = 11
         var bestResult = 0
 
         fun toMinutes(): Float {
-            return ((((sec + (massAndMps.mass / mps)) / 60.0f)) * 100.0f).roundToInt() / 100.0f
+            return ((((sec + (massCost / massIncome)) / 60.0f)) * 100.0f).roundToInt() / 100.0f
         }
 
-        best = toMinutes()
+        var best = toMinutes()
 
-        fun resultAll(sacu: Int, mps: Int) {
-            minutes = toMinutes()
-            resultList.add(sacu, Result(sacu, mps, minutes,false))
-
-            if (minutes < best) {
-                best = minutes
+        fun resultAll(sacu: Int, massIncome: Int) {
+            resultList.add(sacu, Result(sacu, massIncome, toMinutes(), false))
+            if (toMinutes() < best) {
+                best = toMinutes()
                 bestResult = sacu
             }
         }
-        resultAll(0, mps)
 
-        while (sec < 600) {
+        resultAll(0, massIncome)
+
+        while (sec < secMax) {
+            massCurrent += massIncome
             sec++
-            mass += mps
-            if (mass >= 6450) {
+            if (massCurrent >= sacuCost) {
                 sacu++
-                mps += 11
-                mass -= 6450  //5320
-                resultAll(sacu, mps)
+                massIncome += sacuIncome
+                massCurrent -= sacuCost
+                resultAll(sacu, massIncome)
             }
         }
-        resultList[bestResult].best = true
 
-        resultList.add(0, Result(0, 0, 0.0f,false))
+        resultList[bestResult].best = true
+        resultList.add(0, Result(0, 0, 0.0f, false))
 
         return ResultList(resultList)
     }

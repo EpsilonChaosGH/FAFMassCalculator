@@ -9,7 +9,7 @@ import com.example.fafmasscalculator.ExpParcelable
 import com.example.fafmasscalculator.R
 import com.example.fafmasscalculator.ResultAdapter
 import com.example.fafmasscalculator.databinding.FragmentMenuBinding
-import com.example.fafmasscalculator.domain.models.MassAndMps
+import com.example.fafmasscalculator.domain.models.Params
 import com.example.fafmasscalculator.domain.models.Result
 
 import com.example.fafmasscalculator.presentation.MenuVM
@@ -18,8 +18,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private lateinit var binding: FragmentMenuBinding
-    private lateinit var massAndMps : MassAndMps
-    private  val vm  by viewModel<MenuVM>()
+    private lateinit var params: Params
+    private val vm by viewModel<MenuVM>()
     private val adapter = ResultAdapter()
     private var resultList: MutableList<Result> = ArrayList()
 
@@ -34,59 +34,53 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             resultList = it.resultList
         }
 
-        vm.massAndMpsLive.observe(viewLifecycleOwner) {
-            binding.massNeedEdit.setText(it.mass.toString())
-            binding.mpsEdit.setText(it.mps.toString())
+        vm.paramsLive.observe(viewLifecycleOwner) {
+            binding.editTextMassCost.setText(it.massCost.toString())
+            binding.editTextMassIncome.setText(it.massIncome.toString())
         }
 
-        fun saveMassAndMpsSharedPreferences() {
-            massAndMps = MassAndMps(
-            mass = binding.massNeedEdit.text.toString().toInt(),
-            mps = binding.mpsEdit.text.toString().toInt()
+        fun currentParams(): Params {
+            params = Params(
+                massCost = binding.editTextMassCost.text.toString().toInt(),
+                massIncome = binding.editTextMassIncome.text.toString().toInt()
             )
-            vm.save(massAndMps)
+            return params
         }
 
-
-        binding.imageViewMenu.setOnClickListener{
+        binding.imageViewMenu.setOnClickListener {
             openExp()
         }
 
         binding.btResult.setOnClickListener {
-            if (binding.mpsEdit.text.isNotEmpty() && binding.massNeedEdit.text.isNotEmpty()) {
-                massAndMps = MassAndMps(
-                mass = binding.massNeedEdit.text.toString().toInt(),
-                mps = binding.mpsEdit.text.toString().toInt()
-                )
-                vm.getResultList(massAndMps)
-
-                saveMassAndMpsSharedPreferences()
-                init()
-            }
+            resultList.clear()
+            vm.getResultList(currentParams())
+            vm.save(currentParams())
+            init()
         }
 
-        val liveData = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ExpParcelable>(
-            ExpFragment.EXP
-        )
+        val liveData =
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ExpParcelable>(
+                ExpFragment.EXP
+            )
         liveData?.observe(viewLifecycleOwner) { exp ->
             if (exp != null) {
-                binding.massNeedEdit.setText(exp.mass)
+                binding.editTextMassCost.setText(exp.mass)
                 binding.imageViewMenu.setImageResource(exp.imageId)
                 liveData.value = null
             }
         }
+        init()
     }
 
-    private fun init(){
-        binding.apply{
-            rcViewResult.layoutManager = GridLayoutManager(activity,1)
+    private fun init() {
+        binding.apply {
+            rcViewResult.layoutManager = GridLayoutManager(activity, 1)
             rcViewResult.adapter = adapter
             adapter.addAll(resultList)
-            resultList.clear()
         }
     }
 
-    private fun openExp(){
+    private fun openExp() {
         val direction = MenuFragmentDirections.actionMenuFragmentToExpFragment()
         findNavController().navigate(direction)
     }

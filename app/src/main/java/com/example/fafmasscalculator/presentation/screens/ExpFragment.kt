@@ -15,7 +15,7 @@ import com.example.fafmasscalculator.domain.models.Exp
 
 class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
     private lateinit var binding: FragmentExpBinding
-    private lateinit var adapter : ExpAdapter
+    private lateinit var adapter: ExpAdapter
     private val imageIdList = ArrayList<Exp>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +46,7 @@ class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
         adapter = ExpAdapter(this)
 
         init()
-        }
+    }
 
     private fun init() {
         binding.apply {
@@ -54,15 +54,16 @@ class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
             rcView.adapter = adapter
             adapter.addAll(imageIdList)
         }
-      }
+    }
 
     override fun onClick(exp: Exp) {
-      //  Toast.makeText(activity, exp.mass, Toast.LENGTH_SHORT).show()
+        //  Toast.makeText(activity, exp.mass, Toast.LENGTH_SHORT).show()
         findNavController().previousBackStackEntry?.savedStateHandle
-            ?.set(EXP,ExpParcelable(exp.imageId,exp.title,exp.mass,exp.type))
+            ?.set(EXP, ExpParcelable(exp.imageId, exp.title, exp.mass, exp.type))
         findNavController().popBackStack()
     }
-    companion object{
+
+    companion object {
         const val EXP = "EXP"
     }
 }

@@ -12,25 +12,28 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
     private var resultList = ArrayList<Result>()
 
-    class ResultHolder(item : View): RecyclerView.ViewHolder(item){
+    class ResultHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val binding = ResultItemBinding.bind(item)
 
-        fun bind (result : Result) = with(binding){
+        fun bind(result: Result) = with(binding) {
             resultViewSacu.text = result.sacu.toString()
-            resultViewMps.text =  result.mpsNumber.toString()
-            resultViewTime.text = result.sec.toString()
+            resultViewMassIncome.text = result.massIncome.toString()
+            resultViewTime.text = result.time.toString()
         }
-        fun bindName () = with(binding){
+
+        fun bindName() = with(binding) {
             resultViewSacu.text = "SACU"
-            resultViewMps.text =  "MPS"
+            resultViewMassIncome.text = "INCOME"
             resultViewTime.text = "TIME"
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolder {
-        val view = when (viewType){
-            TYPE_ITEM0 -> LayoutInflater.from(parent.context).inflate(R.layout.best_result_item,parent,false)
-            TYPE_ITEM1 -> LayoutInflater.from(parent.context).inflate(R.layout.result_item,parent,false)
+        val view = when (viewType) {
+            TYPE_ITEM0 -> LayoutInflater.from(parent.context)
+                .inflate(R.layout.best_result_item, parent, false)
+            TYPE_ITEM1 -> LayoutInflater.from(parent.context)
+                .inflate(R.layout.result_item, parent, false)
             else -> throw IllegalAccessException("invalid type")
         }
         return ResultHolder(view)
@@ -46,17 +49,20 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-           return if (resultList[position].best) TYPE_ITEM0
-            else TYPE_ITEM1
+        return if (resultList[position].best) TYPE_ITEM0
+        else TYPE_ITEM1
     }
 
-    fun addAll(list: List<Result>){
+    fun addAll(list: List<Result>) {
         resultList.clear()
         resultList.addAll(list)
-       // notifyDataSetChanged()
+        // notifyDataSetChanged()
     }
-    companion object{
-        @JvmStatic private val TYPE_ITEM0 = 0
-        @JvmStatic private val TYPE_ITEM1 = 1
+
+    companion object {
+        @JvmStatic
+        private val TYPE_ITEM0 = 0
+        @JvmStatic
+        private val TYPE_ITEM1 = 1
     }
 }

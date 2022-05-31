@@ -6,11 +6,11 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    viewModel<MenuVM>{
+    viewModel<MenuVM> {
         MenuVM(
-            getMassAndMpsUseCase = get(),
+            getParamsUseCase = get(),
             getResultListUseCase = get(),
-            saveMassAndMpsUseCase = get()
+            saveParamsUseCase = get()
         )
     }
 }

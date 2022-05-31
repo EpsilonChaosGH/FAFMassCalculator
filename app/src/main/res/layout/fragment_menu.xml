@@ -8,7 +8,7 @@
     tools:context=".presentation.screens.MenuFragment">
 
     <EditText
-        android:id="@+id/massNeedEdit"
+        android:id="@+id/editTextMassCost"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/mpsEdit"
+        android:id="@+id/editTextMassIncome"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
@@ -63,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/massNeedEdit"
+        app:layout_constraintBottom_toTopOf="@+id/editTextMassCost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
