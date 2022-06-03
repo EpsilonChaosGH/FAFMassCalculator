@@ -20,12 +20,6 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
             resultViewMassIncome.text = result.massIncome.toString()
             resultViewTime.text = result.time.toString()
         }
-
-        fun bindName() = with(binding) {
-            resultViewSacu.text = "SACU"
-            resultViewMassIncome.text = "INCOME"
-            resultViewTime.text = "TIME"
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolder {
@@ -40,8 +34,7 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
     }
 
     override fun onBindViewHolder(holder: ResultHolder, position: Int) {
-        if (position == 0) holder.bindName()
-        else holder.bind(resultList[position])
+        holder.bind(resultList[position])
     }
 
     override fun getItemCount(): Int {
@@ -56,12 +49,12 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
     fun addAll(list: List<Result>) {
         resultList.clear()
         resultList.addAll(list)
-        // notifyDataSetChanged()
     }
 
     companion object {
         @JvmStatic
         private val TYPE_ITEM0 = 0
+
         @JvmStatic
         private val TYPE_ITEM1 = 1
     }

@@ -49,8 +49,6 @@ class ResultListRepositoryImpl : ResultListRepository {
         }
 
         resultList[bestResult].best = true
-        resultList.add(0, Result(0, 0, 0.0f, false))
-
         return ResultList(resultList)
     }
 }

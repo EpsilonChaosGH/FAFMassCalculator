@@ -7,20 +7,65 @@
     android:background="@drawable/background_gradient"
     tools:context=".presentation.screens.MenuFragment">
 
+    <LinearLayout
+        android:id="@+id/linearLayoutTitle"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:background="@color/gray_light"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/resultViewSacu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="SACU"
+            android:textColor="@color/blue_uef"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/resultViewMassIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="INCOME"
+            android:textColor="@color/blue_uef"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/resultViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TIME"
+            android:textColor="@color/blue_uef"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <EditText
         android:id="@+id/editTextMassCost"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/background_edittext"
         android:gravity="center"
         android:hint="@string/how_much_mass"
         android:imeOptions="actionDone"
         android:inputType="number"
+        android:maxLength="9"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/btResult"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageViewMenu"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -28,35 +73,19 @@
         android:id="@+id/editTextMassIncome"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
         android:background="@drawable/background_edittext"
         android:gravity="center"
         android:hint="@string/how_much_mps"
         android:imeOptions="actionDone"
         android:inputType="number"
+        android:maxLength="9"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/btResult"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewMenu" />
-
-    <TextView
-        android:id="@+id/btResult"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="@string/result"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:background="@drawable/background_edittext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toEndOf="@+id/imageViewMenu" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcViewResult"
@@ -67,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitle"
         app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -81,117 +110,10 @@
         android:background="@drawable/background_edittext"
         android:foregroundGravity="center"
         android:src="@drawable/ahwassa"
-        app:layout_constraintBottom_toTopOf="@+id/btResult"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rcViewResult"
         app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="@color/white"-->
-<!--    tools:context=".presentation.screens.MenuFragment">-->
-
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/placeHolder"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/rcViewResult">-->
-
-<!--    </FrameLayout>-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/mpsEdit"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="43dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/how_much_mps"-->
-<!--        android:inputType="number"-->
-<!--        android:minHeight="48dp"-->
-<!--        android:imeOptions="actionDone"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/massNeedEdit"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="46dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/how_much_mass"-->
-<!--        android:inputType="number"-->
-<!--        android:minHeight="48dp"-->
-<!--        android:imeOptions="actionDone"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.502"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/btResult"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="32dp"-->
-<!--        android:layout_marginTop="32dp"-->
-<!--        android:layout_marginEnd="32dp"-->
-<!--        android:layout_marginBottom="32dp"-->
-<!--        android:text="@string/result"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/mpsEdit"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/btExpUnits"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:text="@string/exp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/massNeedEdit" />-->
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rcViewResult"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/btResult" >-->
-
-<!--    </androidx.recyclerview.widget.RecyclerView>-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/imageViewMenu"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="24dp"-->
-<!--        android:src="@drawable/ahwassa"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/mpsEdit"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/massNeedEdit"-->
-<!--        app:layout_constraintVertical_bias="0.609"-->
-<!--        android:visibility="gone"-->
-<!--        />-->
-
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

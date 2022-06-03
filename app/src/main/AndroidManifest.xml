@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FAFMassCalculator">
         <activity
-            android:name=".MainActivity"
+            android:name=".app.MainActivity"
             android:windowSoftInputMode="stateHidden"
             android:exported="true">
             <intent-filter>
