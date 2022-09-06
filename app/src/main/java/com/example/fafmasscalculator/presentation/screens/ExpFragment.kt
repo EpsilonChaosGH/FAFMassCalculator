@@ -1,19 +1,19 @@
 package com.example.fafmasscalculator.presentation.screens
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Parcel
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fafmasscalculator.ExpAdapter
 import com.example.fafmasscalculator.ExpParcelable
+import com.example.fafmasscalculator.Listener
 import com.example.fafmasscalculator.R
 import com.example.fafmasscalculator.databinding.FragmentExpBinding
 import com.example.fafmasscalculator.domain.models.Exp
 
-class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
+class ExpFragment : Fragment(R.layout.fragment_exp) {
     private lateinit var binding: FragmentExpBinding
     private lateinit var adapter: ExpAdapter
     private val imageIdList = ArrayList<Exp>()
@@ -43,24 +43,21 @@ class ExpFragment : Fragment(R.layout.fragment_exp), ExpAdapter.Listener {
         imageIdList.add(18, Exp(R.drawable.ahwassa,"Ahwassa",getString(R.string.ahwassa),ExpAdapter.SERAPHIM))
         imageIdList.add(19, Exp(R.drawable.ythotha,"Ythotha",getString(R.string.ythotha),ExpAdapter.SERAPHIM))
 
-        adapter = ExpAdapter(this)
+        adapter = ExpAdapter(object: Listener{
+            override fun onClick(exp: Exp) {
+                findNavController().previousBackStackEntry?.savedStateHandle
+                    ?.set(EXP, ExpParcelable(exp.imageId, exp.title, exp.mass, exp.type))
+                findNavController().popBackStack()
+            }
+        })
 
-        init()
-    }
-
-    private fun init() {
+        var spanCount = 4
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){ spanCount = 5 }
         binding.apply {
-            rcView.layoutManager = GridLayoutManager(activity, 4)
+            rcView.layoutManager = GridLayoutManager(activity, spanCount)
             rcView.adapter = adapter
-            adapter.addAll(imageIdList)
+            adapter.expList = imageIdList
         }
-    }
-
-    override fun onClick(exp: Exp) {
-        //  Toast.makeText(activity, exp.mass, Toast.LENGTH_SHORT).show()
-        findNavController().previousBackStackEntry?.savedStateHandle
-            ?.set(EXP, ExpParcelable(exp.imageId, exp.title, exp.mass, exp.type))
-        findNavController().popBackStack()
     }
 
     companion object {

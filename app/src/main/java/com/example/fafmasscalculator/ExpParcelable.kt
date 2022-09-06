@@ -8,5 +8,5 @@ class ExpParcelable(
     var imageId: Int,
     var title: String,
     var mass: String,
-    var type: Int
+    var type: String
 ) : Parcelable

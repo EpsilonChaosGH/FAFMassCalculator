@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fafmasscalculator.ExpParcelable
 import com.example.fafmasscalculator.R
 import com.example.fafmasscalculator.ResultAdapter
@@ -40,7 +41,10 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMenuBinding.bind(view)
 
-        vm.load()
+
+        binding.rcViewResult.layoutManager = LinearLayoutManager(activity)
+        binding.rcViewResult.adapter = adapter
+
 
         vm.resultLive.observe(viewLifecycleOwner) {
             resultList = it.resultList
@@ -90,7 +94,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         resultList.clear()
         vm.getResultList(currentParams())
         vm.save(currentParams())
-        init()
+        adapter.resultList = resultList
     }
 
     private fun currentParams(): Params {
@@ -101,24 +105,14 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         return params
     }
 
-    private fun init() {
-        binding.apply {
-            rcViewResult.layoutManager = GridLayoutManager(activity, 1)
-            rcViewResult.adapter = adapter
-            adapter.addAll(resultList)
-        }
-    }
-
     private fun openExp() {
         activity?.let { hideKeyboardFrom(it, view) }
         val direction = MenuFragmentDirections.actionMenuFragmentToExpFragment()
         findNavController().navigate(direction)
-
     }
 
     private fun hideKeyboardFrom(context: Context, view: View?) {
-        val imm =
-            context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

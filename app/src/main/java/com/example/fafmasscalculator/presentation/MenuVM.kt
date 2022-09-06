@@ -21,12 +21,16 @@ class MenuVM(
     private val resultLiveMutable = MutableLiveData<ResultList>()
     val resultLive: LiveData<ResultList> = resultLiveMutable
 
-    fun save(params: Params) {
-        saveParamsUseCase.execute(params)
+    init {
+        load()
     }
 
-    fun load() {
+    private fun load() {
         paramsLiveMutable.value = getParamsUseCase.execute()
+    }
+
+    fun save(params: Params) {
+        saveParamsUseCase.execute(params)
     }
 
     fun getResultList(params: Params) {

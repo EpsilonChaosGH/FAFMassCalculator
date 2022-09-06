@@ -4,5 +4,5 @@ data class Exp(
     val imageId: Int,
     val title: String,
     val mass: String,
-    val type: Int
+    val type: String
 )

@@ -1,5 +1,6 @@
 package com.example.fafmasscalculator
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,67 +8,66 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fafmasscalculator.databinding.ExpItemBinding
 import com.example.fafmasscalculator.domain.models.Exp
 
+interface Listener {
+    fun onClick(exp: Exp)
+}
 
-class ExpAdapter(var listener: Listener) : RecyclerView.Adapter<ExpAdapter.ExpHolder>() {
+class ExpAdapter(
+    var listener: Listener
+) : RecyclerView.Adapter<ExpAdapter.ExpHolder>(), View.OnClickListener {
+
+    class ExpHolder(
+        val binding: ExpItemBinding
+    ) : RecyclerView.ViewHolder(binding.root)
 
     var expList = ArrayList<Exp>()
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
-    class ExpHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val binding = ExpItemBinding.bind(item)
-        fun bind(exp: Exp, listener: Listener) = with(binding) {
-            im.setImageResource(exp.imageId)
-            tvTitle.text = exp.title
-            tvMass.text = exp.mass
-            clickView.setOnClickListener {
-                listener.onClick(exp)
-            }
+    override fun onClick(v: View) {
+        val exp = v.tag as Exp
+
+        when (v.id) {
+            R.id.expItem -> listener.onClick(exp)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpHolder {
-        val view = when (viewType) {
-            AEON -> LayoutInflater.from(parent.context).inflate(R.layout.aeon_item, parent, false)
-            CYBRAN -> LayoutInflater.from(parent.context)
-                .inflate(R.layout.cybran_item, parent, false)
-            SERAPHIM -> LayoutInflater.from(parent.context)
-                .inflate(R.layout.seraphim_item, parent, false)
-            UEF -> LayoutInflater.from(parent.context).inflate(R.layout.uef_item, parent, false)
-            else -> throw IllegalAccessException("invalid type")
-        }
-        return ExpHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ExpItemBinding.inflate(inflater, parent, false)
+
+        binding.expItem.setOnClickListener(this)
+
+        return ExpHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ExpHolder, position: Int) {
-        holder.bind(expList[position], listener)
-    }
+        val exp = expList[position]
 
-    override fun getItemCount(): Int {
-        return expList.size
-    }
+        holder.binding.expItem.tag = exp
 
-    override fun getItemViewType(position: Int): Int {
-        return when (expList[position].type) {
-            0 -> AEON
-            1 -> CYBRAN
-            2 -> SERAPHIM
-            3 -> UEF
-            else -> throw IllegalAccessException("invalid type")
+        holder.binding.im.setImageResource(exp.imageId)
+        holder.binding.tvTitle.text = exp.title
+        holder.binding.tvMass.text = exp.mass
+
+        when (exp.type) {
+            AEON -> holder.binding.tvTitle.setBackgroundResource(R.color.green_aeon)
+            UEF -> holder.binding.tvTitle.setBackgroundResource(R.color.blue_uef)
+            CYBRAN -> holder.binding.tvTitle.setBackgroundResource(R.color.red_cybran)
+            SERAPHIM -> holder.binding.tvTitle.setBackgroundResource(R.color.yellow_seraphim)
         }
     }
 
-    fun addAll(list: List<Exp>) {
-        expList.addAll(list)
-        //notifyDataSetChanged()
-    }
-
-    interface Listener {
-        fun onClick(exp: Exp)
-    }
+    override fun getItemCount() = expList.size
 
     companion object {
-        const val AEON = 0
-        const val CYBRAN = 1
-        const val SERAPHIM = 2
-        const val UEF = 3
+        const val AEON = "AEON"
+        const val UEF = "UEF"
+        const val CYBRAN = "CYBRAN"
+        const val SERAPHIM = "SERAPHIM"
     }
+
 }
