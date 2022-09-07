@@ -5,28 +5,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.fafmasscalculator.domain.models.Params
 import com.example.fafmasscalculator.domain.models.ResultList
-import com.example.fafmasscalculator.domain.usercase.GetParamsUseCase
-import com.example.fafmasscalculator.domain.usercase.GetResultListUseCase
-import com.example.fafmasscalculator.domain.usercase.SaveParamsUseCase
+import com.example.fafmasscalculator.domain.usercase.*
 
 class MenuVM(
     private val getResultListUseCase: GetResultListUseCase,
     private val getParamsUseCase: GetParamsUseCase,
-    private val saveParamsUseCase: SaveParamsUseCase
+    private val saveParamsUseCase: SaveParamsUseCase,
+    private val resultsServices: ResultsServices,
 ) : ViewModel() {
 
-    private val paramsLiveMutable = MutableLiveData<Params>()
-    val paramsLive: LiveData<Params> = paramsLiveMutable
+    private val _params = MutableLiveData<Params>()
+    val params: LiveData<Params> = _params
 
-    private val resultLiveMutable = MutableLiveData<ResultList>()
-    val resultLive: LiveData<ResultList> = resultLiveMutable
+    private val _result = MutableLiveData<ResultList>()
+    val result: LiveData<ResultList> = _result
+
+    private val listener: ResultListener = {
+        _result.value = it
+    }
 
     init {
+        resultsServices.addListener(listener)
         load()
     }
 
     private fun load() {
-        paramsLiveMutable.value = getParamsUseCase.execute()
+        _params.value = getParamsUseCase.execute()
     }
 
     fun save(params: Params) {
@@ -34,6 +38,12 @@ class MenuVM(
     }
 
     fun getResultList(params: Params) {
-        resultLiveMutable.value = getResultListUseCase.execute(params)
+        resultsServices.addResult(getResultListUseCase.execute(params))
+        resultsServices.notifyChanges()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        resultsServices.removeListeners(listener)
     }
 }

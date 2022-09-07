@@ -10,7 +10,8 @@ val appModule = module {
         MenuVM(
             getParamsUseCase = get(),
             getResultListUseCase = get(),
-            saveParamsUseCase = get()
+            saveParamsUseCase = get(),
+            resultsServices = get()
         )
     }
 }
