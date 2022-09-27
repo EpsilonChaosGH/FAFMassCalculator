@@ -1,8 +1,8 @@
 package com.example.fafmasscalculator.presentation.screens
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -51,13 +51,21 @@ class ExpFragment : Fragment(R.layout.fragment_exp) {
             }
         })
 
-        var spanCount = 4
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){ spanCount = 5 }
-        binding.apply {
-            rcView.layoutManager = GridLayoutManager(activity, spanCount)
-            rcView.adapter = adapter
-            adapter.expList = imageIdList
-        }
+        setupLayoutManager(binding, adapter)
+        adapter.expList = imageIdList
+
+    }
+    private fun setupLayoutManager(binding: FragmentExpBinding, adapter: ExpAdapter) {
+        binding.rcView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                binding.rcView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                val width = binding.rcView.width
+                val itemWidth = resources.getDimensionPixelSize(R.dimen.item_width)
+                val columns = width / itemWidth
+                binding.rcView.adapter = adapter
+                binding.rcView.layoutManager = GridLayoutManager(requireContext(), columns)
+            }
+        })
     }
 
     companion object {

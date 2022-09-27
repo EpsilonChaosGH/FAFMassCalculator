@@ -2,7 +2,6 @@ package com.example.fafmasscalculator.di
 
 import com.example.fafmasscalculator.domain.usercase.GetParamsUseCase
 import com.example.fafmasscalculator.domain.usercase.GetResultListUseCase
-import com.example.fafmasscalculator.domain.usercase.ResultsServices
 import com.example.fafmasscalculator.domain.usercase.SaveParamsUseCase
 import org.koin.dsl.module
 
@@ -21,7 +20,4 @@ val domainModule = module {
         SaveParamsUseCase(paramsRepository = get())
     }
 
-    factory<ResultsServices>{
-        ResultsServices()
-    }
 }

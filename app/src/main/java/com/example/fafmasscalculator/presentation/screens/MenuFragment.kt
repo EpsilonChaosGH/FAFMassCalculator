@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
@@ -17,12 +18,12 @@ import com.example.fafmasscalculator.databinding.FragmentMenuBinding
 import com.example.fafmasscalculator.domain.models.Params
 
 import com.example.fafmasscalculator.presentation.MenuVM
+import com.example.fafmasscalculator.presentation.collectFlow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private lateinit var binding: FragmentMenuBinding
-    private lateinit var params: Params
     private val viewModel by viewModel<MenuVM>()
     private val adapter = ResultAdapter()
 
@@ -34,13 +35,11 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         binding.rcViewResult.layoutManager = LinearLayoutManager(activity)
         binding.rcViewResult.adapter = adapter
 
-        viewModel.result.observe(viewLifecycleOwner) {
-            adapter.resultList = it.resultList
-        }
+        binding.editTextMassCost.setText(viewModel.params.value.massCost.toString())
+        binding.editTextMassIncome.setText(viewModel.params.value.massIncome.toString())
 
-        viewModel.params.observe(viewLifecycleOwner) {
-            binding.editTextMassCost.setText(it.massCost.toString())
-            binding.editTextMassIncome.setText(it.massIncome.toString())
+        collectFlow(viewModel.result) {
+            adapter.resultList = it.resultList
         }
 
         val liveData =
@@ -52,6 +51,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
                 binding.editTextMassCost.setText(exp.mass)
                 binding.imageViewMenu.setImageResource(exp.imageId)
                 liveData.value = null
+                updateResult()
             }
         }
     }
@@ -64,35 +64,30 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 
         binding.editTextMassCost.addTextChangedListener(textWatcher)
         binding.editTextMassIncome.addTextChangedListener(textWatcher)
-
-        updateResult()
     }
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {}
-
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            Log.e("aaa", "onTextChanged")
             if (binding.editTextMassIncome.text.isNotEmpty() && binding.editTextMassCost.text.isNotEmpty()) {
-             if (binding.editTextMassIncome.text.toString().toInt() > 0 && binding.editTextMassCost.text.toString().toInt() > 0)  updateResult()
+                if (binding.editTextMassIncome.text.toString()
+                        .toInt() > 0 && binding.editTextMassCost.text.toString().toInt() > 0
+                ) updateResult()
             }
         }
     }
 
     private fun updateResult() {
-        viewModel.getResultList(currentParams())
         viewModel.save(currentParams())
-
+        viewModel.getResultList(currentParams())
     }
 
-    private fun currentParams(): Params {
-        params = Params(
-            massCost = binding.editTextMassCost.text.toString().toInt(),
-            massIncome = binding.editTextMassIncome.text.toString().toInt()
-        )
-        return params
-    }
+    private fun currentParams() = Params(
+        massCost = binding.editTextMassCost.text.toString().toInt(),
+        massIncome = binding.editTextMassIncome.text.toString().toInt()
+    )
 
     private fun openExp() {
         activity?.let { hideKeyboardFrom(it, view) }

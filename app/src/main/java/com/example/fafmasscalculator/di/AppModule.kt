@@ -11,7 +11,6 @@ val appModule = module {
             getParamsUseCase = get(),
             getResultListUseCase = get(),
             saveParamsUseCase = get(),
-            resultsServices = get()
         )
     }
 }

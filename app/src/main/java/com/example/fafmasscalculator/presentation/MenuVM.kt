@@ -1,49 +1,42 @@
 package com.example.fafmasscalculator.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.fafmasscalculator.domain.models.Params
 import com.example.fafmasscalculator.domain.models.ResultList
 import com.example.fafmasscalculator.domain.usercase.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 
 class MenuVM(
     private val getResultListUseCase: GetResultListUseCase,
     private val getParamsUseCase: GetParamsUseCase,
     private val saveParamsUseCase: SaveParamsUseCase,
-    private val resultsServices: ResultsServices,
 ) : ViewModel() {
 
-    private val _params = MutableLiveData<Params>()
-    val params: LiveData<Params> = _params
+    private val _params = MutableStateFlow<Params>(getParamsUseCase.execute())
+    val params: StateFlow<Params> = _params
 
-    private val _result = MutableLiveData<ResultList>()
-    val result: LiveData<ResultList> = _result
-
-    private val listener: ResultListener = {
-        _result.value = it
-    }
+    private val _result = MutableStateFlow<ResultList>(getResultListUseCase.execute(_params.value))
+    val result: StateFlow<ResultList> = _result
 
     init {
-        resultsServices.addListener(listener)
-        load()
+        loadParams()
+        getResultList(_params.value)
     }
 
-    private fun load() {
+    private fun loadParams() {
         _params.value = getParamsUseCase.execute()
     }
 
     fun save(params: Params) {
+        _params.value = params
         saveParamsUseCase.execute(params)
     }
 
     fun getResultList(params: Params) {
-        resultsServices.addResult(getResultListUseCase.execute(params))
-        resultsServices.notifyChanges()
+        _result.value = getResultListUseCase.execute(params)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        resultsServices.removeListeners(listener)
-    }
 }
